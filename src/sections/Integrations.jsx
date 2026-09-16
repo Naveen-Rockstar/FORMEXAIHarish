@@ -169,23 +169,23 @@ export function Integrations() {
                   <span className="node-title">CALENDAR</span>
                 </div>
                 <div className="node-status-line">
-                  <span className="status-dot" />
-                  <span>{current.activeTarget === 'calendar' ? 'SLOT BOOKED' : 'CONNECTED'}</span>
+                  <span className="status-dot status-available" />
+                  <span className="status-label-available">AVAILABLE · TWO-WAY SYNC</span>
                 </div>
-                <div className="node-subhead">Google Cal · Outlook</div>
+                <div className="node-subhead">Google Calendar · Microsoft Outlook</div>
               </div>
 
               {/* 2. CRM Node */}
               <div className={`destination-node-card ${current.activeTarget === 'crm' ? 'active-destination' : ''}`}>
                 <div className="node-head">
                   <span className="node-icon">💼</span>
-                  <span className="node-title">CRM &amp; JOBS</span>
+                  <span className="node-title">CRM &amp; DISPATCH</span>
                 </div>
                 <div className="node-status-line">
-                  <span className="status-dot" />
-                  <span>{current.activeTarget === 'crm' ? 'RECORD CREATED' : 'CONNECTED'}</span>
+                  <span className="status-dot status-coming-soon" />
+                  <span className="status-label-coming">COMING SOON (CSV/SHEETS AVAILABLE)</span>
                 </div>
-                <div className="node-subhead">ServiceTitan · Jobber</div>
+                <div className="node-subhead">ServiceTitan · Jobber · Housecall Pro</div>
               </div>
 
               {/* 3. Messaging Node */}
@@ -195,10 +195,10 @@ export function Integrations() {
                   <span className="node-title">MESSAGING</span>
                 </div>
                 <div className="node-status-line">
-                  <span className="status-dot" />
-                  <span>CONFIRMED</span>
+                  <span className="status-dot status-available" />
+                  <span className="status-label-available">AVAILABLE (SMS) · WHATSAPP SOON</span>
                 </div>
-                <div className="node-subhead">Instant SMS Dispatched</div>
+                <div className="node-subhead">Instant Customer SMS Confirmation</div>
               </div>
 
               {/* 4. Team Dispatch Node */}
@@ -208,10 +208,10 @@ export function Integrations() {
                   <span className="node-title">TEAM ALERTS</span>
                 </div>
                 <div className="node-status-line">
-                  <span className="status-dot" />
-                  <span>{current.activeTarget === 'team' ? 'STAFF ALERTED' : 'CONNECTED'}</span>
+                  <span className="status-dot status-available" />
+                  <span className="status-label-available">AVAILABLE · WARM BRIDGE</span>
                 </div>
-                <div className="node-subhead">Slack · Warm Phone Transfer</div>
+                <div className="node-subhead">Carrier Bridge (*72) · Slack · SMS</div>
               </div>
 
             </div>

@@ -1,0 +1,5 @@
+# FormexAI robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://formexai-harish.vercel.app/sitemap.xml

@@ -1,165 +1,145 @@
 /**
- * FORMEXAI — Industries Explorer Section
- * "ONE RECEPTIONIST. DIFFERENT BUSINESSES."
- * Editorial explorer revealing common customer calls, conversation snippets,
- * and business rules for each supported sector.
+ * FORMEXAI — Industries Section
+ * Section: Industry Positioning
+ * Heading: Built for HVAC. Designed for home services.
+ * 
+ * Primary: HVAC (Flagship)
+ * Secondary: Plumbing, Electrical, Roofing, General Home Services
  */
 
 import React, { useState } from 'react';
-import { INDUSTRY_CATEGORIES, INDUSTRIES_LIST } from '../data/industriesData.js';
-import { Button } from '../components/Button.jsx';
 
-export function IndustriesSection({ onOpenDemoModal, onScrollToLiveDemo }) {
-  const [selectedCategoryId, setSelectedCategoryId] = useState('home-services');
-  const [selectedIndustryId, setSelectedIndustryId] = useState('hvac');
+export function IndustriesSection() {
+  const [activeVertical, setActiveVertical] = useState('hvac');
 
-  // Filter industries matching current category
-  const filteredIndustries = INDUSTRIES_LIST.filter((ind) => ind.categoryId === selectedCategoryId);
-
-  // Active industry detail
-  const activeIndustry = INDUSTRIES_LIST.find((ind) => ind.id === selectedIndustryId) || filteredIndustries[0] || INDUSTRIES_LIST[0];
-
-  const handleSelectCategory = (catId) => {
-    setSelectedCategoryId(catId);
-    const firstInCat = INDUSTRIES_LIST.find((ind) => ind.categoryId === catId);
-    if (firstInCat) {
-      setSelectedIndustryId(firstInCat.id);
+  const verticals = [
+    {
+      id: 'hvac',
+      name: 'HVAC & Cooling ★',
+      flagship: true,
+      tagline: 'Built specifically for heating and air conditioning contractors.',
+      callsPitched: [
+        'AC blowing warm air in peak summer heat',
+        'Furnace not igniting during winter freeze',
+        'Seasonal 21-point preventative maintenance tune-up',
+        'New equipment replacement quote and estimate booking'
+      ],
+      whyHomeServices: 'HVAC tickets average $350–$1,200 for repairs and $8,000+ for replacements. Missing even two calls a day during a heat wave costs thousands in unrecoverable revenue.'
+    },
+    {
+      id: 'plumbing',
+      name: 'Plumbing Services',
+      flagship: false,
+      tagline: 'Triage emergency leaks and dispatch scheduled drain clearing.',
+      callsPitched: [
+        'Active water pipe burst requiring immediate main valve shutoff',
+        'Backed-up main sewer line or toilet overflow',
+        'Water heater leaking or failing to produce hot water',
+        'Scheduled fixture installation and camera inspection'
+      ],
+      whyHomeServices: 'Plumbing emergencies require immediate reassurance and urgent on-call dispatch before water damages the home.'
+    },
+    {
+      id: 'electrical',
+      name: 'Electrical Contracting',
+      flagship: false,
+      tagline: 'Qualify panel upgrades, circuit diagnostic calls, and service visits.',
+      callsPitched: [
+        'Breaker tripping constantly under HVAC/appliance load',
+        'Burning electrical smell or sparking outlet triage',
+        'Whole-home generator quote or EV charger installation',
+        '200-amp panel upgrade consultation scheduling'
+      ],
+      whyHomeServices: 'Safety-critical triage separates hazardous panel failures from routine lighting upgrades.'
+    },
+    {
+      id: 'roofing',
+      name: 'Roofing & Exteriors',
+      flagship: false,
+      tagline: 'Handle storm damage spikes and schedule roof inspections.',
+      callsPitched: [
+        'Active roof leak dripping through ceiling drywall after heavy rain',
+        'Hail or wind storm damage inspection request',
+        'Full roof replacement estimate scheduling',
+        'Gutter cleaning and preventative inspection booking'
+      ],
+      whyHomeServices: 'Storm surges create 50+ calls in an afternoon. FormexAI qualifies address, insurance claim status, and roof age automatically.'
     }
-  };
+  ];
+
+  const current = verticals.find((v) => v.id === activeVertical) || verticals[0];
 
   return (
-    <section className="industries-section-root" id="industries" aria-label="Supported Industries">
-      <div className="industries-container">
+    <section className="industries-section-root" id="industries" aria-label="Industries Focus">
+      <div className="container">
         
         {/* Section Header */}
         <div className="industries-header-cluster">
-          <span className="industries-eyebrow">Industry Adaptability</span>
-          <h2 className="industries-headline">One receptionist. Different businesses.</h2>
+          <span className="eyebrow">Industry Focus</span>
+          <h2 className="industries-headline">
+            Built for HVAC.<br />
+            <span className="industries-headline-accent">Designed for home services.</span>
+          </h2>
           <p className="industries-subhead">
-            Every industry has different conversations, rules, and urgency requirements. Formexai adapts its conversation to fit how your customers actually talk.
+            We don't try to build a receptionist for dentists, lawyers, and dog groomers all at once. FormexAI is built for the dispatch rhythms, equipment problems, and urgent calls of the trades.
           </p>
         </div>
 
-        {/* Category Tabs Nav */}
-        <div className="category-tabs-bar" role="tablist" aria-label="Industry Categories">
-          {INDUSTRY_CATEGORIES.map((cat) => {
-            const isCatSelected = cat.id === selectedCategoryId;
+        {/* Vertical Tabs Switcher */}
+        <div className="industries-tabs-nav" role="tablist" aria-label="Home Service Verticals">
+          {verticals.map((v) => {
+            const isActive = v.id === activeVertical;
             return (
               <button
-                key={cat.id}
+                key={v.id}
                 type="button"
                 role="tab"
-                aria-selected={isCatSelected}
-                className={`category-tab-btn ${isCatSelected ? 'active' : ''}`}
-                onClick={() => handleSelectCategory(cat.id)}
+                aria-selected={isActive}
+                className={`vertical-tab-btn ${isActive ? 'tab-active' : ''}`}
+                onClick={() => setActiveVertical(v.id)}
               >
-                {cat.name}
+                <span>{v.name}</span>
+                {v.flagship && <span className="flagship-mini-badge">FLAGSHIP</span>}
               </button>
             );
           })}
         </div>
 
-        {/* Sub-Pills within Active Category */}
-        <div className="industry-subpills-row" role="tablist" aria-label="Select specific industry">
-          {filteredIndustries.map((ind) => {
-            const isIndSelected = ind.id === activeIndustry.id;
-            return (
-              <button
-                key={ind.id}
-                type="button"
-                role="tab"
-                aria-selected={isIndSelected}
-                className={`industry-subpill ${isIndSelected ? 'active' : ''}`}
-                onClick={() => setSelectedIndustryId(ind.id)}
-              >
-                {ind.name}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Large Editorial Detail Experience Frame */}
-        <div className="industry-detail-frame">
-          <div className="industry-detail-grid">
+        {/* Active Vertical Deep Card */}
+        <div className="vertical-detail-card">
+          <div className="vertical-detail-grid">
             
-            {/* Left Column: Scope & Capabilities */}
-            <div className="industry-scope-col">
-              <span className="sector-tag">{activeIndustry.name.toUpperCase()}</span>
-              <h3 className="scope-headline">{activeIndustry.tagline}</h3>
-
-              <div className="scope-block">
-                <h5 className="scope-title">Common Customer Calls</h5>
-                <ul className="common-calls-list">
-                  {activeIndustry.commonCalls.map((call, idx) => (
-                    <li key={idx} className="common-call-item">
-                      <span className="call-bullet">•</span>
+            {/* Left: Common Call Types Handled */}
+            <div className="vertical-calls-col">
+              <span className="v-tag">{current.name.toUpperCase()}</span>
+              <h3 className="v-tagline">{current.tagline}</h3>
+              
+              <div className="v-calls-box">
+                <span className="v-box-title">FREQUENT CALL TYPES HANDLED:</span>
+                <ul className="v-calls-list">
+                  {current.callsPitched.map((call, idx) => (
+                    <li key={idx} className="v-call-item">
+                      <span className="v-bullet">●</span>
                       <span>"{call}"</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="scope-block">
-                <h5 className="scope-title">What Formexai Handles Automatically</h5>
-                <ul className="handled-actions-list">
-                  {activeIndustry.handledActions.map((action, idx) => (
-                    <li key={idx} className="handled-action-item">
-                      <span className="action-check">✓</span>
-                      <span>{action}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
 
-            {/* Right Column: Dialogue Excerpt & Logic Rule */}
-            <div className="industry-dialogue-col">
-              
-              {/* Conversational Sample Card */}
-              <div className="industry-conversation-card">
-                <div className="card-header-bar">
-                  <span className="card-tag">SAMPLE CONVERSATION EXCERPT</span>
-                  <span className="live-indicator">● NATURAL SPEECH</span>
+            {/* Right: Operational Rationale & ROI */}
+            <div className="vertical-impact-col">
+              <div className="v-impact-card">
+                <div className="impact-head">
+                  <span className="impact-icon">💼</span>
+                  <span className="impact-title">OPERATIONAL REALITY</span>
                 </div>
-
-                <div className="dialogue-flow">
-                  <div className="dialogue-line caller-line">
-                    <span className="line-speaker">CALLER</span>
-                    <p className="line-quote">"{activeIndustry.dialogue.caller}"</p>
-                  </div>
-
-                  <div className="dialogue-line receptionist-line">
-                    <span className="line-speaker">FORMEXAI RECEPTIONIST</span>
-                    <p className="line-quote">"{activeIndustry.dialogue.receptionist}"</p>
-                  </div>
+                <p className="impact-body">{current.whyHomeServices}</p>
+                <div className="impact-footer">
+                  <span className="check-green">✓</span>
+                  <span>Configured with trade-specific equipment terminology and service codes</span>
                 </div>
               </div>
-
-              {/* Active Business Rule Card */}
-              <div className="industry-rule-card">
-                <div className="rule-header">
-                  <span className="rule-badge">Configured Business Rule</span>
-                </div>
-                <div className="rule-body">
-                  <span className="code-text">{activeIndustry.rule}</span>
-                </div>
-              </div>
-
-              {/* CTA Action Bar */}
-              <div className="industry-cta-banner">
-                <div className="cta-left">
-                  <strong>Ready to deploy for {activeIndustry.name}?</strong>
-                  <span>Onboarding and live testing takes approximately one week.</span>
-                </div>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={onOpenDemoModal}
-                >
-                  Configure This Industry →
-                </Button>
-              </div>
-
             </div>
 
           </div>

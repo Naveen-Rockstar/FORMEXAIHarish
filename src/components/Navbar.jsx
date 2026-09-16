@@ -167,40 +167,40 @@ export function Navbar({ onOpenDemoModal }) {
             {activeDropdown === 'industries' && (
               <div className="nav-dropdown-menu industries-grid-menu" role="menu">
                 <Link
-                  to="/industries/hvac"
+                  to="/industries"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Home Services &amp; HVAC</div>
-                  <div className="item-desc">AC repair, plumbing triage, technician dispatch</div>
+                  <div className="item-title">HVAC (Heating &amp; Air) ★</div>
+                  <div className="item-desc">Flagship: AC repair, furnace outages, seasonal tune-ups</div>
                 </Link>
                 <Link
-                  to="/industries/dental"
+                  to="/industries"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Healthcare &amp; Dental</div>
-                  <div className="item-desc">Patient intake, acute pain triage, chair booking</div>
+                  <div className="item-title">Plumbing Services</div>
+                  <div className="item-desc">Burst pipes, drain cleaning, emergency dispatch</div>
                 </Link>
                 <Link
-                  to="/industries/real-estate"
+                  to="/industries"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Real Estate &amp; Brokerage</div>
-                  <div className="item-desc">Listing inquiries, showing booking, buyer triage</div>
+                  <div className="item-title">Electrical Contracting</div>
+                  <div className="item-desc">Panel upgrades, circuit diagnostics, service calls</div>
                 </Link>
                 <Link
-                  to="/industries/retail"
+                  to="/industries"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Retail &amp; Commerce</div>
-                  <div className="item-desc">Inventory lookups, counter holds, store info</div>
+                  <div className="item-title">Roofing &amp; Exteriors</div>
+                  <div className="item-desc">Storm triage, inspection booking, estimate requests</div>
                 </Link>
                 <Link
                   to="/industries"
@@ -208,7 +208,7 @@ export function Navbar({ onOpenDemoModal }) {
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">View All Industries →</div>
+                  <div className="item-title">All Home-Service Verticals →</div>
                 </Link>
               </div>
             )}
@@ -222,9 +222,15 @@ export function Navbar({ onOpenDemoModal }) {
             Integrations
           </Link>
 
-          <Link to="/hear-formexai" className="nav-link nav-highlight-link">
-            Hear Formexai
-          </Link>
+          <a href="/#faq" className="nav-link" onClick={(e) => {
+            if (window.location.pathname === '/') {
+              e.preventDefault();
+              const el = document.getElementById('faq');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}>
+            FAQ
+          </a>
 
         </nav>
 
@@ -232,18 +238,19 @@ export function Navbar({ onOpenDemoModal }) {
         <div className="navbar-actions">
           
           <Link
-            to="/get-started"
-            className="nav-login-btn"
+            to="/hear-formexai"
+            className="nav-link nav-highlight-link"
           >
-            Log In
+            Hear FormexAI
           </Link>
 
-          <Link
-            to="/get-started"
+          <button
+            type="button"
             className="btn btn-primary btn-sm"
+            onClick={onOpenDemoModal}
           >
-            Get Started
-          </Link>
+            Book a Demo
+          </button>
 
           {/* Mobile Menu Hamburger Button */}
           <button
@@ -300,9 +307,9 @@ export function Navbar({ onOpenDemoModal }) {
               <button
                 type="button"
                 className="mobile-nav-item"
-                onClick={() => handleMobileNav('/hear-formexai')}
+                onClick={() => handleMobileNav('/how-it-works')}
               >
-                <span>Hear Formexai Demo</span>
+                <span>How It Works</span>
                 <span className="item-arrow">→</span>
               </button>
 
@@ -311,16 +318,7 @@ export function Navbar({ onOpenDemoModal }) {
                 className="mobile-nav-item"
                 onClick={() => handleMobileNav('/industries')}
               >
-                <span>Industries</span>
-                <span className="item-arrow">→</span>
-              </button>
-
-              <button
-                type="button"
-                className="mobile-nav-item"
-                onClick={() => handleMobileNav('/how-it-works')}
-              >
-                <span>How It Works</span>
+                <span>Industries (HVAC &amp; Home Services)</span>
                 <span className="item-arrow">→</span>
               </button>
 
@@ -335,12 +333,43 @@ export function Navbar({ onOpenDemoModal }) {
 
               <button
                 type="button"
-                className="mobile-nav-item mobile-nav-cta"
-                onClick={() => handleMobileNav('/get-started')}
+                className="mobile-nav-item"
+                onClick={() => {
+                  closeMobileMenu();
+                  if (window.location.pathname === '/') {
+                    const el = document.getElementById('faq');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    navigate('/#faq');
+                  }
+                }}
               >
-                <span>Get Started</span>
+                <span>FAQ</span>
                 <span className="item-arrow">→</span>
               </button>
+
+              <button
+                type="button"
+                className="mobile-nav-item"
+                onClick={() => handleMobileNav('/hear-formexai')}
+              >
+                <span>Hear FormexAI Voice Demo</span>
+                <span className="item-arrow">→</span>
+              </button>
+
+              <div className="mobile-drawer-cta-wrap" style={{ marginTop: '16px' }}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  style={{ width: '100%', minHeight: '48px', justifyContent: 'center' }}
+                  onClick={() => {
+                    closeMobileMenu();
+                    if (onOpenDemoModal) onOpenDemoModal();
+                  }}
+                >
+                  Book a Demo
+                </button>
+              </div>
             </nav>
 
           </div>

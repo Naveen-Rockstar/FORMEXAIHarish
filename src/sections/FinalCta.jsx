@@ -1,53 +1,65 @@
 /**
  * FORMEXAI — Final Call to Action Section
- * Minimalist, powerful, high-conversion section.
- * "YOUR CUSTOMERS ARE CALLING. LET FORMEXAI HANDLE THE CONVERSATION."
+ * Heading: Stop sending customers to voicemail.
+ * Primary CTA: Hear FormexAI
+ * Secondary CTA: Book a Demo
  */
 
 import React from 'react';
-import { Link } from '../router.jsx';
 
-export function FinalCta() {
+export function FinalCta({ onOpenDemoModal }) {
+  const handleScrollToDemo = (e) => {
+    e.preventDefault();
+    const demoEl = document.getElementById('demo');
+    if (demoEl) {
+      demoEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/hear-formexai';
+    }
+  };
+
   return (
-    <section className="final-cta-root" aria-label="Final Call to Action">
+    <section className="final-cta-root" id="cta" aria-label="Final Call to Action">
       <div className="final-cta-container">
         
         <div className="final-cta-box">
           <div className="cta-badge-indicator">
             <span className="cta-bullet" />
-            <span className="cta-badge-label">Start Your One-Week Onboarding</span>
+            <span className="cta-badge-label">Stop Losing Revenue to Voicemail</span>
           </div>
 
           <h2 className="final-cta-headline">
-            Your customers are calling. <br />
-            <span className="final-cta-emphasis">Let Formexai handle the conversation.</span>
+            Stop sending customers to voicemail.<br />
+            <span className="final-cta-emphasis">Turn missed calls into booked jobs.</span>
           </h2>
 
           <p className="final-cta-supporting">
-            A professional AI receptionist configured around the way your business works.
+            FormexAI answers your inbound lines 24/7, qualifies the repair, and books the appointment directly into your schedule — so your team stays focused on the job.
           </p>
 
           <div className="final-cta-buttons">
-            <Link
-              to="/get-started"
+            <a
+              href="#demo"
+              onClick={handleScrollToDemo}
               className="btn btn-primary btn-lg"
             >
-              Get Started
-            </Link>
-            <Link
-              to="/hear-formexai"
+              Hear FormexAI
+            </a>
+            <button
+              type="button"
+              onClick={onOpenDemoModal}
               className="btn btn-secondary btn-lg"
             >
-              Hear Formexai
-            </Link>
+              Book a Demo
+            </button>
           </div>
 
           <div className="final-cta-reassurance">
-            <span>Setup &amp; testing in ~1 week</span>
+            <span>Under 1-second pickup</span>
             <span className="reassurance-divider">•</span>
             <span>Zero phone number changes</span>
             <span className="reassurance-divider">•</span>
-            <span>Keep your team focused</span>
+            <span>You approve before go-live</span>
           </div>
         </div>
 

@@ -1,18 +1,16 @@
 /**
- * FORMEXAI — Implementation Process Section
- * Section: Implementation Process
+ * FORMEXAI — How It Works Section
+ * Section: Operational Call Journey
+ * Heading: From ringing phone to booked job.
  * 
- * Steps:
- * 01 Tell Formexai about your business
- * 02 Configure your receptionist
- * 03 Connect your workflows
- * 04 Let Formexai handle the conversation
- * 
- * Dynamic Product Visualizations Beside Timeline:
- * - STEP 01: Business Knowledge Base interface with checkmarks & verified FAQs
- * - STEP 02: Receptionist Configuration interface with controls, name, greeting, rules
- * - STEP 03: Workflow Connections diagram with live status indicators
- * - STEP 04: Voice System Live Telemetry with carrier connection & execution state
+ * Continuous Operational Flow (7 Stages):
+ * 01 CALL - Customer calls the business.
+ * 02 ANSWER - FormexAI answers immediately.
+ * 03 UNDERSTAND - It identifies the customer's request.
+ * 04 QUALIFY - It collects relevant information.
+ * 05 BOOK - It checks availability and schedules the job.
+ * 06 ROUTE - Urgent or complex conversations are transferred or escalated.
+ * 07 FOLLOW UP - The customer and team receive the appropriate confirmation/details.
  */
 
 import React, { useState } from 'react';
@@ -20,356 +18,209 @@ import React, { useState } from 'react';
 export function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
 
-  const steps = [
+  const stages = [
     {
       num: '01',
-      title: 'Tell Formexai about your business.',
-      sub: 'Define services, service areas, operating hours, pricing guidance and common customer questions.',
-      visualTitle: 'BUSINESS KNOWLEDGE BASE',
-      badge: 'Step 01 Config'
+      name: 'CALL',
+      title: 'Customer calls the business.',
+      desc: 'Homeowner rings your existing business phone number via standard carrier line.',
+      telemetry: 'INBOUND_SIP · 10:48 AM',
+      actionTitle: 'Inbound Line Signal',
+      actionDetail: 'Call connects via existing carrier forwarding (*72). No phone number change required.',
+      badge: 'Step 01 Carrier'
     },
     {
       num: '02',
-      title: 'Configure your receptionist.',
-      sub: 'Choose your receptionist’s name, tone, greeting and custom business rules.',
-      visualTitle: 'RECEPTIONIST CONFIGURATION',
-      badge: 'Step 02 Config'
+      name: 'ANSWER',
+      title: 'FormexAI answers immediately.',
+      desc: 'Answers in under one second with your custom brand name, articulate tone, and greeting.',
+      telemetry: 'LATENCY < 0.4s · PICKUP CONFIRMED',
+      actionTitle: 'Instant Voice Greeting',
+      actionDetail: '"Thanks for calling Northstar Heating & Air. How can I help you today?"',
+      badge: 'Step 02 Reception'
     },
     {
       num: '03',
-      title: 'Connect your workflows.',
-      sub: 'Link your calendar system, CRM, phone routing and team notification channels.',
-      visualTitle: 'WORKFLOW CONNECTIONS',
-      badge: 'Step 03 Webhooks'
+      name: 'UNDERSTAND',
+      title: 'It identifies the customer\'s request.',
+      desc: 'Natural language engine separates cooling emergencies, tune-ups, quotes, and routine questions.',
+      telemetry: 'INTENT_CLASSIFIED · AC_REPAIR',
+      actionTitle: 'Intent Classification',
+      actionDetail: 'Caller states AC is blowing hot air. FormexAI identifies diagnostic repair triage.',
+      badge: 'Step 03 AI Triage'
     },
     {
       num: '04',
-      title: 'Let Formexai handle the conversation.',
-      sub: 'Forward your inbound business line and let Formexai handle calls according to your rules.',
-      visualTitle: 'LIVE VOICE SYSTEM',
-      badge: 'Step 04 Production'
+      name: 'QUALIFY',
+      title: 'It collects relevant information.',
+      desc: 'Captures caller name, property address, system age, and specific equipment symptoms without keypad menus.',
+      telemetry: 'TERRITORY_VALIDATED · DALLAS_TX',
+      actionTitle: 'Customer Data Capture',
+      actionDetail: 'Verified address within 25-mi service radius. Homeowner notes air handler making buzzing sound.',
+      badge: 'Step 04 Qualification'
+    },
+    {
+      num: '05',
+      name: 'BOOK',
+      title: 'It checks availability and schedules the job.',
+      desc: 'Connects directly to your Google Calendar or scheduling tool to offer and lock verified slots.',
+      telemetry: 'SLOT_LOCKED · TODAY_2:30PM',
+      actionTitle: 'Live Calendar Lock',
+      actionDetail: 'Direct two-way availability query confirms technician dispatch window for 2:30 PM today.',
+      badge: 'Step 05 Scheduling'
+    },
+    {
+      num: '06',
+      name: 'ROUTE',
+      title: 'Urgent or complex conversations are transferred or escalated.',
+      desc: 'Gas leaks, active water damage, or VIP accounts trigger immediate warm phone transfers to on-call staff.',
+      telemetry: 'RULE_EVALUATED · DISPATCH_OK',
+      actionTitle: 'Conditional Rule Engine',
+      actionDetail: 'If emergency threshold is exceeded, FormexAI bridges the line directly to on-call technician with notes.',
+      badge: 'Step 06 Escalation'
+    },
+    {
+      num: '07',
+      name: 'FOLLOW UP',
+      title: 'The customer and team receive the appropriate details.',
+      desc: 'Instant confirmation SMS sent to caller; call summary, recording, and ticket logged into your workflow.',
+      telemetry: 'SMS_DISPATCHED · TICKET_SYNCED',
+      actionTitle: 'Two-Way Confirmation',
+      actionDetail: 'Homeowner receives appointment text; office manager receives dispatch summary with zero manual entry.',
+      badge: 'Step 07 Completion'
     }
   ];
 
-  const current = steps[activeStep];
+  const current = stages[activeStep];
+  const progressPercent = (activeStep / (stages.length - 1)) * 100;
 
   return (
-    <section className="how-it-works-root" id="how-it-works" aria-label="Implementation Timeline">
+    <section className="how-it-works-root" id="how-it-works" aria-label="How FormexAI Works">
       <div className="container">
         
         {/* Section Header */}
         <div className="how-header-cluster">
-          <span className="eyebrow">Implementation Process</span>
-          <h2 className="how-headline">From setup to live calls in one week.</h2>
+          <span className="eyebrow">Operational Workflow</span>
+          <h2 className="how-headline">From ringing phone to booked job.</h2>
           <p className="how-subhead">
-            Zero changes to your phone numbers. Our team configures your knowledge base, connects your calendar, and tests live calls with your staff before launch.
+            FormexAI guides every customer conversation through seven disciplined operational stages so zero opportunities slip away.
           </p>
         </div>
 
-        {/* 2-Column Stepped Timeline + Dynamic Visual */}
-        <div className="timeline-interactive-grid">
+        {/* 7-Step Continuous Operational Flow Container */}
+        <div className="operational-journey-wrapper">
           
-          {/* Left Column: Connected Vertical Timeline */}
-          <div className="timeline-stepper-column">
-            <div className="timeline-vertical-track">
-              
-              {/* Progress Line */}
-              <div className="track-line-bg" />
-              <div
-                className="track-line-progress"
-                style={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
-              />
+          {/* Top Stage Rail with Connected Progress Line */}
+          <div className="flow-rail-container">
+            <div className="flow-rail-bg-line" />
+            <div
+              className="flow-rail-active-line"
+              style={{ width: `${progressPercent}%` }}
+            />
 
-              {/* Stepper Entries */}
-              <div className="timeline-entries-list">
-                {steps.map((st, idx) => {
-                  const isActive = idx === activeStep;
-                  const isPast = idx < activeStep;
-                  return (
-                    <div
-                      key={st.num}
-                      className={`timeline-entry ${isActive ? 'entry-active' : ''} ${isPast ? 'entry-past' : ''}`}
-                      onClick={() => setActiveStep(idx)}
-                      tabIndex={0}
-                      role="button"
-                      aria-pressed={isActive}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') setActiveStep(idx);
-                      }}
-                    >
-                      <div className="entry-node-pin">
-                        <span className="node-outer-glow" />
-                        <span className="node-inner-dot" />
-                      </div>
-
-                      <div className="entry-card-content">
-                        <div className="entry-num-row">
-                          <span className="entry-num-tag">{st.num}</span>
-                          {isActive && <span className="entry-active-chip">Active Step</span>}
-                        </div>
-                        <h3 className="entry-title">{st.title}</h3>
-                        <p className="entry-sub">{st.sub}</p>
-                      </div>
+            <div className="flow-rail-nodes-row">
+              {stages.map((st, idx) => {
+                const isActive = idx === activeStep;
+                const isPast = idx < activeStep;
+                return (
+                  <button
+                    key={st.num}
+                    type="button"
+                    className={`flow-rail-btn ${isActive ? 'active-node' : ''} ${isPast ? 'past-node' : ''}`}
+                    onClick={() => setActiveStep(idx)}
+                    aria-label={`Jump to stage ${st.num}: ${st.name}`}
+                  >
+                    <div className="flow-node-bullet">
+                      <span className="flow-bullet-dot" />
                     </div>
-                  );
-                })}
-              </div>
-
+                    <div className="flow-node-text">
+                      <span className="flow-node-num">{st.num}</span>
+                      <span className="flow-node-name">{st.name}</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {/* Right Column: Dynamic Operations Interface Beside the Timeline */}
-          <div className="timeline-visual-column">
-            <div className="dynamic-timeline-monitor">
+          {/* Active Stage Detailed Breakdown Panel */}
+          <div className="flow-stage-detail-card">
+            
+            {/* Left Column: Stage Explanation */}
+            <div className="stage-explanation-col">
+              <div className="stage-top-meta">
+                <span className="stage-badge-pill">STAGE {current.num} OF 07</span>
+                <span className="stage-badge-name">{current.badge}</span>
+              </div>
+              <h3 className="stage-main-title">{current.title}</h3>
+              <p className="stage-main-desc">{current.desc}</p>
               
-              {/* Monitor Window Topbar */}
-              <div className="monitor-topbar">
-                <div className="monitor-dots">
-                  <span className="m-dot red" />
-                  <span className="m-dot yellow" />
-                  <span className="m-dot green" />
+              <div className="stage-stepper-controls">
+                <button
+                  type="button"
+                  className="step-nav-btn prev"
+                  disabled={activeStep === 0}
+                  onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
+                >
+                  ← Previous Stage
+                </button>
+                <button
+                  type="button"
+                  className="step-nav-btn next"
+                  disabled={activeStep === stages.length - 1}
+                  onClick={() => setActiveStep((prev) => Math.min(stages.length - 1, prev + 1))}
+                >
+                  Next Stage →
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: Execution Monitor Terminal */}
+            <div className="stage-execution-col">
+              <div className="stage-terminal-box">
+                <div className="terminal-topbar">
+                  <div className="terminal-dots">
+                    <span className="t-dot" />
+                    <span className="t-dot" />
+                    <span className="t-dot" />
+                  </div>
+                  <span className="terminal-title">WORKFLOW EXECUTION · STAGE {current.num}</span>
+                  <span className="terminal-tag">{current.name}</span>
                 </div>
-                <span className="monitor-window-title">{current.visualTitle}</span>
-                <span className="monitor-step-badge">{current.badge}</span>
+
+                <div className="terminal-body">
+                  <div className="terminal-row">
+                    <span className="t-key">SIGNAL_STATE:</span>
+                    <span className="t-val t-val-accent">{current.telemetry}</span>
+                  </div>
+
+                  <div className="terminal-row">
+                    <span className="t-key">ACTION:</span>
+                    <span className="t-val">{current.actionTitle}</span>
+                  </div>
+
+                  <div className="terminal-log-output">
+                    <span className="log-prefix">&gt;</span>
+                    <span className="log-text">{current.actionDetail}</span>
+                  </div>
+
+                  <div className="terminal-waveform-bar" aria-hidden="true">
+                    {stages.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`w-segment ${idx <= activeStep ? 'active' : ''}`}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
-
-              {/* Monitor Body Content — Specific Miniature Product UI Per Step */}
-              <div className="monitor-body-content">
-                
-                {/* STEP 01: BUSINESS KNOWLEDGE BASE INTERFACE */}
-                {activeStep === 0 && (
-                  <div className="operations-panel kb-panel">
-                    <div className="panel-status-header">
-                      <span className="panel-title-text">BUSINESS KNOWLEDGE BASE</span>
-                      <span className="kb-synced-pill">
-                        <span className="synced-dot" />
-                        <span>● SYNCED</span>
-                      </span>
-                    </div>
-
-                    <div className="kb-sub-section">
-                      <div className="kb-sec-label">SERVICES CATALOG</div>
-                      <div className="kb-service-row">
-                        <span className="service-name">Emergency AC Repair</span>
-                        <span className="check-badge">✓</span>
-                      </div>
-                      <div className="kb-service-row">
-                        <span className="service-name">Annual Tune-Up</span>
-                        <span className="check-badge">✓</span>
-                      </div>
-                      <div className="kb-service-row">
-                        <span className="service-name">Diagnostic Service</span>
-                        <span className="check-badge">✓</span>
-                      </div>
-                    </div>
-
-                    <div className="kb-divider" />
-
-                    <div className="kb-grid-two">
-                      <div className="kb-cell">
-                        <div className="kb-sec-label">OPERATING HOURS</div>
-                        <div className="kb-val-bold">Mon–Fri · 7:00 AM – 7:00 PM</div>
-                      </div>
-                      <div className="kb-cell">
-                        <div className="kb-sec-label">SERVICE TERRITORY</div>
-                        <div className="kb-val-bold">Greater Metro (25-mi radius)</div>
-                      </div>
-                    </div>
-
-                    <div className="kb-divider" />
-
-                    <div className="kb-faqs-strip">
-                      <span className="kb-sec-label">VERIFIED FAQS</span>
-                      <span className="kb-faq-count">14 verified business answers</span>
-                    </div>
-
-                    <div className="kb-status-footer">
-                      <span className="pulse-green-dot" />
-                      <span className="status-copy">Knowledge verified · Ready for voice binding</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 02: RECEPTIONIST CONFIGURATION INTERFACE */}
-                {activeStep === 1 && (
-                  <div className="operations-panel config-panel">
-                    <div className="panel-status-header">
-                      <span className="panel-title-text">RECEPTIONIST CONFIGURATION</span>
-                      <span className="config-ready-pill">
-                        <span className="ready-dot" />
-                        <span>● READY</span>
-                      </span>
-                    </div>
-
-                    <div className="config-fields-list">
-                      <div className="config-field-row">
-                        <span className="cfg-key">NAME</span>
-                        <span className="cfg-pill">Alex</span>
-                      </div>
-                      <div className="config-field-row">
-                        <span className="cfg-key">VOICE</span>
-                        <span className="cfg-val">Professional (Articulate, Warm)</span>
-                      </div>
-                      <div className="config-field-row greeting-row">
-                        <span className="cfg-key">CUSTOM GREETING</span>
-                        <div className="cfg-greeting-box">
-                          "Thanks for calling Northstar Heating &amp; Air. How can I help you today?"
-                        </div>
-                      </div>
-                      <div className="config-field-row">
-                        <span className="cfg-key">BUSINESS TONE</span>
-                        <div className="tone-tags-row">
-                          <span className="tone-chip">Calm</span>
-                          <span className="tone-chip">Helpful</span>
-                          <span className="tone-chip">Direct</span>
-                        </div>
-                      </div>
-                      <div className="config-field-row">
-                        <span className="cfg-key">RULES EVALUATED</span>
-                        <span className="cfg-rules-badge">12 active rules loaded</span>
-                      </div>
-                    </div>
-
-                    <div className="config-status-footer">
-                      <span className="pulse-orange-dot" />
-                      <span className="status-copy">Receptionist profile active · Persona calibrated</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 03: WORKFLOW CONNECTIONS DIAGRAM */}
-                {activeStep === 2 && (
-                  <div className="operations-panel workflows-panel">
-                    <div className="panel-status-header">
-                      <span className="panel-title-text">WORKFLOW DISPATCH ARCHITECTURE</span>
-                      <span className="hub-status-pill">
-                        <span className="hub-dot" />
-                        <span>● 4 CONNECTED</span>
-                      </span>
-                    </div>
-
-                    <div className="workflow-connectors-diagram">
-                      <div className="wf-hub-marker">
-                        <span className="wf-hub-icon">F</span>
-                        <span className="wf-hub-label">FORMEXAI ENGINE</span>
-                      </div>
-
-                      <div className="wf-routes-list">
-                        <div className="wf-route-item connected">
-                          <div className="wf-route-left">
-                            <span className="wf-icon">📅</span>
-                            <span className="wf-name">CALENDAR</span>
-                          </div>
-                          <div className="wf-route-status">
-                            <span className="wf-status-dot" />
-                            <span>CONNECTED · Two-way slot lock</span>
-                          </div>
-                        </div>
-
-                        <div className="wf-route-item connected">
-                          <div className="wf-route-left">
-                            <span className="wf-icon">💼</span>
-                            <span className="wf-name">CRM &amp; JOBS</span>
-                          </div>
-                          <div className="wf-route-status">
-                            <span className="wf-status-dot" />
-                            <span>CONNECTED · Work order creation</span>
-                          </div>
-                        </div>
-
-                        <div className="wf-route-item connected">
-                          <div className="wf-route-left">
-                            <span className="wf-icon">☎</span>
-                            <span className="wf-name">PHONE ROUTING</span>
-                          </div>
-                          <div className="wf-route-status">
-                            <span className="wf-status-dot" />
-                            <span>CONNECTED · Carrier forwarding</span>
-                          </div>
-                        </div>
-
-                        <div className="wf-route-item connected">
-                          <div className="wf-route-left">
-                            <span className="wf-icon">⚡</span>
-                            <span className="wf-name">TEAM ALERTS</span>
-                          </div>
-                          <div className="wf-route-status">
-                            <span className="wf-status-dot" />
-                            <span>CONNECTED · Slack &amp; SMS dispatch</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="wf-status-footer">
-                      <span className="pulse-green-dot" />
-                      <span className="status-copy">Two-way webhooks established · Instant synchronization</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 04: VOICE SYSTEM LIVE TELEMETRY */}
-                {activeStep === 3 && (
-                  <div className="operations-panel live-voice-panel">
-                    <div className="panel-status-header">
-                      <span className="panel-title-text">VOICE SYSTEM PRODUCTION</span>
-                      <span className="telemetry-live-pill">
-                        <span className="live-pulse-dot" />
-                        <span>● ACTIVE INBOUND</span>
-                      </span>
-                    </div>
-
-                    <div className="voice-telemetry-metrics">
-                      <div className="v-metric-row">
-                        <span className="v-metric-key">PHONE LINE</span>
-                        <span className="v-metric-val active-val">● ACTIVE (Carrier Connected)</span>
-                      </div>
-                      <div className="v-metric-row">
-                        <span className="v-metric-key">INBOUND CALLS</span>
-                        <span className="v-metric-val">Listening autonomously</span>
-                      </div>
-                      <div className="v-metric-row">
-                        <span className="v-metric-key">INTENT</span>
-                        <span className="v-metric-val accent-val">Classifying in real time</span>
-                      </div>
-                      <div className="v-metric-row">
-                        <span className="v-metric-key">ACTION</span>
-                        <span className="v-metric-val success-val">Executing business rules</span>
-                      </div>
-                      <div className="v-metric-row">
-                        <span className="v-metric-key">CALL STATE</span>
-                        <span className="v-metric-val">Connected (00:48 · Slot confirmed)</span>
-                      </div>
-                    </div>
-
-                    <div className="voice-live-log">
-                      <span className="log-caret">&gt;</span>
-                      <span className="log-msg">Inbound call handled successfully. Appointment booked for 2:30 PM today. Confirmation SMS sent.</span>
-                    </div>
-
-                    <div className="voice-status-footer">
-                      <span className="pulse-green-dot" />
-                      <span className="status-copy">System live 24/7/365 · Zero hold times</span>
-                    </div>
-                  </div>
-                )}
-
-              </div>
-
             </div>
+
           </div>
 
         </div>
 
       </div>
-
-      {/* Downward Conduit into Ecosystem Section */}
-      <div className="section-conduit-strip" aria-hidden="true">
-        <div className="conduit-line">
-          <span className="conduit-glow-dot" />
-        </div>
-      </div>
-
     </section>
   );
 }
