@@ -1,148 +1,176 @@
 /**
- * FORMEXAI — Industries Section
- * Section: Industry Positioning
- * Heading: Built for HVAC. Designed for home services.
- * 
- * Primary: HVAC (Flagship)
- * Secondary: Plumbing, Electrical, Roofing, General Home Services
+ * FORMEXAI — Core Industries Section Component
+ * 3-Column Industry Grid inspired by Blue Planet and Smith.ai SaaS design language.
+ * Covers 6 primary business verticals: Home Services, Healthcare, Dental, Beauty & Wellness, Professional Services, Trades.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from '../router.jsx';
+import { 
+  Wrench, 
+  HeartPulse, 
+  Smile, 
+  Sparkles, 
+  Briefcase, 
+  HardHat, 
+  ArrowRight 
+} from 'lucide-react';
 
-export function IndustriesSection() {
-  const [activeVertical, setActiveVertical] = useState('hvac');
-
-  const verticals = [
+export function IndustriesSection({ onOpenDemoModal }) {
+  const industries = [
     {
-      id: 'hvac',
-      name: 'HVAC & Cooling ★',
-      flagship: true,
-      tagline: 'Built specifically for heating and air conditioning contractors.',
-      callsPitched: [
-        'AC blowing warm air in peak summer heat',
-        'Furnace not igniting during winter freeze',
-        'Seasonal 21-point preventative maintenance tune-up',
-        'New equipment replacement quote and estimate booking'
+      id: 'home-services',
+      num: '01',
+      icon: Wrench,
+      name: 'Home Services',
+      description: 'Handle calls from homeowners, qualify service requests, schedule appointments and route urgent jobs while your team is in the field.',
+      workflows: [
+        'Service requests',
+        'Appointment booking',
+        'Emergency calls',
+        'Lead qualification'
       ],
-      whyHomeServices: 'HVAC tickets average $350–$1,200 for repairs and $8,000+ for replacements. Missing even two calls a day during a heat wave costs thousands in unrecoverable revenue.'
+      linkText: 'Explore Home Services'
     },
     {
-      id: 'plumbing',
-      name: 'Plumbing Services',
-      flagship: false,
-      tagline: 'Triage emergency leaks and dispatch scheduled drain clearing.',
-      callsPitched: [
-        'Active water pipe burst requiring immediate main valve shutoff',
-        'Backed-up main sewer line or toilet overflow',
-        'Water heater leaking or failing to produce hot water',
-        'Scheduled fixture installation and camera inspection'
+      id: 'healthcare',
+      num: '02',
+      icon: HeartPulse,
+      name: 'Healthcare',
+      description: 'Help patients reach the right information, capture appointment requests and route conversations to the appropriate team.',
+      workflows: [
+        'Appointment requests',
+        'Patient questions',
+        'Intake information',
+        'Call routing'
       ],
-      whyHomeServices: 'Plumbing emergencies require immediate reassurance and urgent on-call dispatch before water damages the home.'
+      linkText: 'Explore Healthcare'
     },
     {
-      id: 'electrical',
-      name: 'Electrical Contracting',
-      flagship: false,
-      tagline: 'Qualify panel upgrades, circuit diagnostic calls, and service visits.',
-      callsPitched: [
-        'Breaker tripping constantly under HVAC/appliance load',
-        'Burning electrical smell or sparking outlet triage',
-        'Whole-home generator quote or EV charger installation',
-        '200-amp panel upgrade consultation scheduling'
+      id: 'dental',
+      num: '03',
+      icon: Smile,
+      name: 'Dental',
+      description: 'Make it easier for patients to ask questions, request appointments and reach your team without waiting on hold.',
+      workflows: [
+        'New patient calls',
+        'Appointment scheduling',
+        'Treatment questions',
+        'Follow-ups'
       ],
-      whyHomeServices: 'Safety-critical triage separates hazardous panel failures from routine lighting upgrades.'
+      linkText: 'Explore Dental'
     },
     {
-      id: 'roofing',
-      name: 'Roofing & Exteriors',
-      flagship: false,
-      tagline: 'Handle storm damage spikes and schedule roof inspections.',
-      callsPitched: [
-        'Active roof leak dripping through ceiling drywall after heavy rain',
-        'Hail or wind storm damage inspection request',
-        'Full roof replacement estimate scheduling',
-        'Gutter cleaning and preventative inspection booking'
+      id: 'beauty-wellness',
+      num: '04',
+      icon: Sparkles,
+      name: 'Beauty & Wellness',
+      description: 'Turn calls into booked appointments while your staff stays focused on clients.',
+      workflows: [
+        'Appointment booking',
+        'Service questions',
+        'Availability requests',
+        'Customer follow-ups'
       ],
-      whyHomeServices: 'Storm surges create 50+ calls in an afternoon. FormexAI qualifies address, insurance claim status, and roof age automatically.'
+      linkText: 'Explore Beauty & Wellness'
+    },
+    {
+      id: 'professional-services',
+      num: '05',
+      icon: Briefcase,
+      name: 'Professional Services',
+      description: 'Capture new inquiries, understand what prospects need and connect qualified conversations with the right person.',
+      workflows: [
+        'New inquiries',
+        'Lead qualification',
+        'Consultation booking',
+        'Call routing'
+      ],
+      linkText: 'Explore Professional Services'
+    },
+    {
+      id: 'trades',
+      num: '06',
+      icon: HardHat,
+      name: 'Trades',
+      description: 'Handle service calls while your team is working on the job.',
+      workflows: [
+        'Service requests',
+        'Job scheduling',
+        'Emergency calls',
+        'Customer updates'
+      ],
+      linkText: 'Explore Trades'
     }
   ];
 
-  const current = verticals.find((v) => v.id === activeVertical) || verticals[0];
+  const handleAction = (e) => {
+    e.preventDefault();
+    if (onOpenDemoModal) {
+      onOpenDemoModal();
+    } else {
+      const demoEl = document.getElementById('demo');
+      if (demoEl) demoEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <section className="industries-section-root" id="industries" aria-label="Industries Focus">
       <div className="container">
         
         {/* Section Header */}
-        <div className="industries-header-cluster">
-          <span className="eyebrow">Industry Focus</span>
+        <div className="industries-header-cluster text-left">
+          <span className="eyebrow">BUILT AROUND YOUR WORKFLOW</span>
           <h2 className="industries-headline">
-            Built for HVAC.<br />
-            <span className="industries-headline-accent">Designed for home services.</span>
+            Different businesses.<br />
+            <span className="industries-headline-accent">Different conversations. One receptionist.</span>
           </h2>
           <p className="industries-subhead">
-            We don't try to build a receptionist for dentists, lawyers, and dog groomers all at once. FormexAI is built for the dispatch rhythms, equipment problems, and urgent calls of the trades.
+            A customer calling a plumber needs a different conversation than someone booking a dental appointment. FormexAI adapts the questions, information, scheduling and routing to fit the business behind the call.
           </p>
         </div>
 
-        {/* Vertical Tabs Switcher */}
-        <div className="industries-tabs-nav" role="tablist" aria-label="Home Service Verticals">
-          {verticals.map((v) => {
-            const isActive = v.id === activeVertical;
+        {/* 3-Column Industry Cards Grid (6 Verticals) */}
+        <div className="industries-three-col-grid">
+          {industries.map((item) => {
+            const IconComponent = item.icon;
             return (
-              <button
-                key={v.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                className={`vertical-tab-btn ${isActive ? 'tab-active' : ''}`}
-                onClick={() => setActiveVertical(v.id)}
-              >
-                <span>{v.name}</span>
-                {v.flagship && <span className="flagship-mini-badge">FLAGSHIP</span>}
-              </button>
+              <div key={item.id} className="industry-card-b2b">
+                
+                <div className="ind-card-topbar">
+                  <div className="ind-icon-badge">
+                    <IconComponent size={22} className="ind-icon" aria-hidden="true" />
+                  </div>
+                  <span className="ind-num-tag">{item.num}</span>
+                </div>
+
+                <h3 className="ind-card-title">{item.name}</h3>
+                <p className="ind-card-desc">{item.description}</p>
+
+                <div className="ind-workflows-block">
+                  <span className="ind-wf-label">COMMON WORKFLOWS:</span>
+                  <ul className="ind-wf-list">
+                    {item.workflows.map((wf, idx) => (
+                      <li key={idx} className="ind-wf-item">
+                        <span className="ind-wf-bullet" aria-hidden="true">•</span>
+                        <span>{wf}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <Link 
+                  to={`/industries/${item.id}`}
+                  className="ind-card-link"
+                  aria-label={`${item.linkText} with FormexAI`}
+                >
+                  <span>{item.linkText}</span>
+                  <ArrowRight size={14} className="link-arrow-icon" aria-hidden="true" />
+                </Link>
+
+              </div>
             );
           })}
-        </div>
-
-        {/* Active Vertical Deep Card */}
-        <div className="vertical-detail-card">
-          <div className="vertical-detail-grid">
-            
-            {/* Left: Common Call Types Handled */}
-            <div className="vertical-calls-col">
-              <span className="v-tag">{current.name.toUpperCase()}</span>
-              <h3 className="v-tagline">{current.tagline}</h3>
-              
-              <div className="v-calls-box">
-                <span className="v-box-title">FREQUENT CALL TYPES HANDLED:</span>
-                <ul className="v-calls-list">
-                  {current.callsPitched.map((call, idx) => (
-                    <li key={idx} className="v-call-item">
-                      <span className="v-bullet">●</span>
-                      <span>"{call}"</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Right: Operational Rationale & ROI */}
-            <div className="vertical-impact-col">
-              <div className="v-impact-card">
-                <div className="impact-head">
-                  <span className="impact-icon">💼</span>
-                  <span className="impact-title">OPERATIONAL REALITY</span>
-                </div>
-                <p className="impact-body">{current.whyHomeServices}</p>
-                <div className="impact-footer">
-                  <span className="check-green">✓</span>
-                  <span>Configured with trade-specific equipment terminology and service codes</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
         </div>
 
       </div>

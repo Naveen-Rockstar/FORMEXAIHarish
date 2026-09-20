@@ -16,6 +16,7 @@ export function Navbar({ onOpenDemoModal }) {
   const { currentPath, navigate } = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
   const navRef = useRef(null);
@@ -39,20 +40,29 @@ export function Navbar({ onOpenDemoModal }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll and handle escape key when mobile menu is open
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        closeMobileMenu();
+      }
+    };
+
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [mobileMenuOpen]);
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+    setMobileIndustriesOpen(false);
     setActiveDropdown(null);
   };
 
@@ -167,40 +177,58 @@ export function Navbar({ onOpenDemoModal }) {
             {activeDropdown === 'industries' && (
               <div className="nav-dropdown-menu industries-grid-menu" role="menu">
                 <Link
-                  to="/industries"
+                  to="/industries/home-services"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">HVAC (Heating &amp; Air) ★</div>
-                  <div className="item-desc">Flagship: AC repair, furnace outages, seasonal tune-ups</div>
+                  <div className="item-title">Home Services</div>
+                  <div className="item-desc">Service calls, emergency requests &amp; job dispatch</div>
                 </Link>
                 <Link
-                  to="/industries"
+                  to="/industries/healthcare"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Plumbing Services</div>
-                  <div className="item-desc">Burst pipes, drain cleaning, emergency dispatch</div>
+                  <div className="item-title">Healthcare</div>
+                  <div className="item-desc">Patient questions, appointment intake &amp; triage</div>
                 </Link>
                 <Link
-                  to="/industries"
+                  to="/industries/dental"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Electrical Contracting</div>
-                  <div className="item-desc">Panel upgrades, circuit diagnostics, service calls</div>
+                  <div className="item-title">Dental</div>
+                  <div className="item-desc">New patient calls, scheduling &amp; treatment inquiries</div>
                 </Link>
                 <Link
-                  to="/industries"
+                  to="/industries/beauty-wellness"
                   className="dropdown-item"
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">Roofing &amp; Exteriors</div>
-                  <div className="item-desc">Storm triage, inspection booking, estimate requests</div>
+                  <div className="item-title">Beauty &amp; Wellness</div>
+                  <div className="item-desc">Appointment bookings &amp; customer inquiries</div>
+                </Link>
+                <Link
+                  to="/industries/professional-services"
+                  className="dropdown-item"
+                  role="menuitem"
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <div className="item-title">Professional Services</div>
+                  <div className="item-desc">Lead qualification, inquiries &amp; consultation scheduling</div>
+                </Link>
+                <Link
+                  to="/industries/trades"
+                  className="dropdown-item"
+                  role="menuitem"
+                  onClick={() => setActiveDropdown(null)}
+                >
+                  <div className="item-title">Trades</div>
+                  <div className="item-desc">Field job scheduling &amp; urgent call handling</div>
                 </Link>
                 <Link
                   to="/industries"
@@ -208,7 +236,7 @@ export function Navbar({ onOpenDemoModal }) {
                   role="menuitem"
                   onClick={() => setActiveDropdown(null)}
                 >
-                  <div className="item-title">All Home-Service Verticals →</div>
+                  <div className="item-title">Explore All Industries →</div>
                 </Link>
               </div>
             )}
@@ -274,7 +302,7 @@ export function Navbar({ onOpenDemoModal }) {
           <div className="drawer-container">
             
             <div className="drawer-header">
-              <Link to="/" onClick={closeMobileMenu}>
+              <Link to="/" onClick={closeMobileMenu} className="drawer-logo-link">
                 <img
                   src="/formexai-logo.jpg"
                   alt="Formexai"
@@ -313,14 +341,78 @@ export function Navbar({ onOpenDemoModal }) {
                 <span className="item-arrow">→</span>
               </button>
 
-              <button
-                type="button"
-                className="mobile-nav-item"
-                onClick={() => handleMobileNav('/industries')}
-              >
-                <span>Industries (HVAC &amp; Home Services)</span>
-                <span className="item-arrow">→</span>
-              </button>
+              {/* Expandable Industries Accordion in Mobile Drawer */}
+              <div className="mobile-accordion-group">
+                <button
+                  type="button"
+                  className="mobile-nav-item accordion-trigger"
+                  onClick={() => setMobileIndustriesOpen((prev) => !prev)}
+                  aria-expanded={mobileIndustriesOpen}
+                >
+                  <span>Industries Solutions</span>
+                  <span className={`accordion-chevron ${mobileIndustriesOpen ? 'open' : ''}`}>▼</span>
+                </button>
+
+                {mobileIndustriesOpen && (
+                  <div className="mobile-submenu-list">
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/home-services')}
+                    >
+                      <span className="sub-title">Home Services</span>
+                      <span className="sub-desc">HVAC, Plumbing &amp; Contracting</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/healthcare')}
+                    >
+                      <span className="sub-title">Healthcare</span>
+                      <span className="sub-desc">Clinics &amp; Patient Intake</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/dental')}
+                    >
+                      <span className="sub-title">Dental</span>
+                      <span className="sub-desc">Practices &amp; Emergency Chair</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/beauty-wellness')}
+                    >
+                      <span className="sub-title">Beauty &amp; Wellness</span>
+                      <span className="sub-desc">Salons &amp; Spa Studios</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/professional-services')}
+                    >
+                      <span className="sub-title">Professional Services</span>
+                      <span className="sub-desc">Legal &amp; Consulting</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item"
+                      onClick={() => handleMobileNav('/industries/trades')}
+                    >
+                      <span className="sub-title">Trades</span>
+                      <span className="sub-desc">Electricians &amp; Job Sites</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="mobile-sub-item view-all-sub"
+                      onClick={() => handleMobileNav('/industries')}
+                    >
+                      <span>Explore All Industries Overview →</span>
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <button
                 type="button"
@@ -357,17 +449,17 @@ export function Navbar({ onOpenDemoModal }) {
                 <span className="item-arrow">→</span>
               </button>
 
-              <div className="mobile-drawer-cta-wrap" style={{ marginTop: '16px' }}>
+              <div className="mobile-drawer-cta-wrap" style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--color-border)' }}>
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ width: '100%', minHeight: '48px', justifyContent: 'center' }}
+                  style={{ width: '100%', minHeight: '48px', justifyContent: 'center', fontSize: '1rem', fontWeight: '700' }}
                   onClick={() => {
                     closeMobileMenu();
                     if (onOpenDemoModal) onOpenDemoModal();
                   }}
                 >
-                  Book a Demo
+                  Book a Product Demo
                 </button>
               </div>
             </nav>

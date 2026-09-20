@@ -1,221 +1,192 @@
 /**
- * FORMEXAI — How It Works Section
- * Section: Operational Call Journey
- * Heading: From ringing phone to booked job.
+ * FORMEXAI — How It Works Section (Minimal Black Icons + Vertical Timeline Refinement)
  * 
- * Continuous Operational Flow (7 Stages):
- * 01 CALL - Customer calls the business.
- * 02 ANSWER - FormexAI answers immediately.
- * 03 UNDERSTAND - It identifies the customer's request.
- * 04 QUALIFY - It collects relevant information.
- * 05 BOOK - It checks availability and schedules the job.
- * 06 ROUTE - Urgent or complex conversations are transferred or escalated.
- * 07 FOLLOW UP - The customer and team receive the appropriate confirmation/details.
+ * Layout Architecture:
+ * - Minimalist section intro with breathing room
+ * - Narrow central container (~760px) with generous side whitespace
+ * - One thin central vertical timeline
+ * - 7 Stages with alternating left/right layout on Desktop
+ * - Strictly BLACK line icons in subtle white containers (#FFFFFF / #EAECF0)
+ * - Subtle FormexAI orange accent ONLY on the active timeline node
+ * - Clean 1-column layout on Mobile
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  PhoneCall, 
+  Headset, 
+  MessageCircle, 
+  ClipboardCheck, 
+  CalendarCheck, 
+  UsersRound, 
+  MailCheck 
+} from 'lucide-react';
 
 export function HowItWorks() {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStage, setActiveStage] = useState(0);
+  const stageRefs = useRef([]);
 
   const stages = [
     {
       num: '01',
+      id: 'call',
       name: 'CALL',
-      title: 'Customer calls the business.',
-      desc: 'Homeowner rings your existing business phone number via standard carrier line.',
-      telemetry: 'INBOUND_SIP · 10:48 AM',
-      actionTitle: 'Inbound Line Signal',
-      actionDetail: 'Call connects via existing carrier forwarding (*72). No phone number change required.',
-      badge: 'Step 01 Carrier'
+      icon: PhoneCall,
+      desc: 'A customer calls your business.'
     },
     {
       num: '02',
+      id: 'answer',
       name: 'ANSWER',
-      title: 'FormexAI answers immediately.',
-      desc: 'Answers in under one second with your custom brand name, articulate tone, and greeting.',
-      telemetry: 'LATENCY < 0.4s · PICKUP CONFIRMED',
-      actionTitle: 'Instant Voice Greeting',
-      actionDetail: '"Thanks for calling Northstar Heating & Air. How can I help you today?"',
-      badge: 'Step 02 Reception'
+      icon: Headset,
+      desc: 'FormexAI answers immediately.'
     },
     {
       num: '03',
+      id: 'understand',
       name: 'UNDERSTAND',
-      title: 'It identifies the customer\'s request.',
-      desc: 'Natural language engine separates cooling emergencies, tune-ups, quotes, and routine questions.',
-      telemetry: 'INTENT_CLASSIFIED · AC_REPAIR',
-      actionTitle: 'Intent Classification',
-      actionDetail: 'Caller states AC is blowing hot air. FormexAI identifies diagnostic repair triage.',
-      badge: 'Step 03 AI Triage'
+      icon: MessageCircle,
+      desc: 'Understands what the customer needs.'
     },
     {
       num: '04',
+      id: 'qualify',
       name: 'QUALIFY',
-      title: 'It collects relevant information.',
-      desc: 'Captures caller name, property address, system age, and specific equipment symptoms without keypad menus.',
-      telemetry: 'TERRITORY_VALIDATED · DALLAS_TX',
-      actionTitle: 'Customer Data Capture',
-      actionDetail: 'Verified address within 25-mi service radius. Homeowner notes air handler making buzzing sound.',
-      badge: 'Step 04 Qualification'
+      icon: ClipboardCheck,
+      desc: 'Collects the right information.'
     },
     {
       num: '05',
+      id: 'book',
       name: 'BOOK',
-      title: 'It checks availability and schedules the job.',
-      desc: 'Connects directly to your Google Calendar or scheduling tool to offer and lock verified slots.',
-      telemetry: 'SLOT_LOCKED · TODAY_2:30PM',
-      actionTitle: 'Live Calendar Lock',
-      actionDetail: 'Direct two-way availability query confirms technician dispatch window for 2:30 PM today.',
-      badge: 'Step 05 Scheduling'
+      icon: CalendarCheck,
+      desc: 'Schedules the appointment.'
     },
     {
       num: '06',
+      id: 'route',
       name: 'ROUTE',
-      title: 'Urgent or complex conversations are transferred or escalated.',
-      desc: 'Gas leaks, active water damage, or VIP accounts trigger immediate warm phone transfers to on-call staff.',
-      telemetry: 'RULE_EVALUATED · DISPATCH_OK',
-      actionTitle: 'Conditional Rule Engine',
-      actionDetail: 'If emergency threshold is exceeded, FormexAI bridges the line directly to on-call technician with notes.',
-      badge: 'Step 06 Escalation'
+      icon: UsersRound,
+      desc: 'Brings in your team when needed.'
     },
     {
       num: '07',
+      id: 'followup',
       name: 'FOLLOW UP',
-      title: 'The customer and team receive the appropriate details.',
-      desc: 'Instant confirmation SMS sent to caller; call summary, recording, and ticket logged into your workflow.',
-      telemetry: 'SMS_DISPATCHED · TICKET_SYNCED',
-      actionTitle: 'Two-Way Confirmation',
-      actionDetail: 'Homeowner receives appointment text; office manager receives dispatch summary with zero manual entry.',
-      badge: 'Step 07 Completion'
+      icon: MailCheck,
+      desc: 'Keeps the conversation going.'
     }
   ];
 
-  const current = stages[activeStep];
-  const progressPercent = (activeStep / (stages.length - 1)) * 100;
+  // Set up IntersectionObserver to track active stage on scroll
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = Number(entry.target.getAttribute('data-stage-index'));
+            if (!isNaN(index)) {
+              setActiveStage(index);
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.5,
+        rootMargin: '-15% 0px -25% 0px'
+      }
+    );
+
+    stageRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="how-it-works-root" id="how-it-works" aria-label="How FormexAI Works">
+    <section className="how-it-works-root minimal-workflow-root" id="how-it-works" aria-label="How FormexAI Works">
       <div className="container">
         
-        {/* Section Header */}
-        <div className="how-header-cluster">
-          <span className="eyebrow">Operational Workflow</span>
-          <h2 className="how-headline">From ringing phone to booked job.</h2>
-          <p className="how-subhead">
-            FormexAI guides every customer conversation through seven disciplined operational stages so zero opportunities slip away.
+        {/* Minimal Section Header */}
+        <div className="minimal-how-header">
+          <span className="eyebrow">HOW IT WORKS</span>
+          <h2 className="minimal-how-headline">From a call to a booked job.</h2>
+          <p className="minimal-how-subhead">
+            Seven simple steps. One seamless experience.<br />
+            FormexAI handles the conversation so your team can focus on what matters.
           </p>
         </div>
 
-        {/* 7-Step Continuous Operational Flow Container */}
-        <div className="operational-journey-wrapper">
+        {/* Vertical Timeline Workflow Container */}
+        <div className="minimal-workflow-container">
           
-          {/* Top Stage Rail with Connected Progress Line */}
-          <div className="flow-rail-container">
-            <div className="flow-rail-bg-line" />
-            <div
-              className="flow-rail-active-line"
-              style={{ width: `${progressPercent}%` }}
+          {/* Thin Central Progress Timeline */}
+          <div className="minimal-timeline-track" aria-hidden="true">
+            <div 
+              className="minimal-timeline-progress-bar"
+              style={{
+                height: `${((activeStage + 1) / stages.length) * 100}%`
+              }}
             />
-
-            <div className="flow-rail-nodes-row">
-              {stages.map((st, idx) => {
-                const isActive = idx === activeStep;
-                const isPast = idx < activeStep;
-                return (
-                  <button
-                    key={st.num}
-                    type="button"
-                    className={`flow-rail-btn ${isActive ? 'active-node' : ''} ${isPast ? 'past-node' : ''}`}
-                    onClick={() => setActiveStep(idx)}
-                    aria-label={`Jump to stage ${st.num}: ${st.name}`}
-                  >
-                    <div className="flow-node-bullet">
-                      <span className="flow-bullet-dot" />
-                    </div>
-                    <div className="flow-node-text">
-                      <span className="flow-node-num">{st.num}</span>
-                      <span className="flow-node-name">{st.name}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
-          {/* Active Stage Detailed Breakdown Panel */}
-          <div className="flow-stage-detail-card">
-            
-            {/* Left Column: Stage Explanation */}
-            <div className="stage-explanation-col">
-              <div className="stage-top-meta">
-                <span className="stage-badge-pill">STAGE {current.num} OF 07</span>
-                <span className="stage-badge-name">{current.badge}</span>
-              </div>
-              <h3 className="stage-main-title">{current.title}</h3>
-              <p className="stage-main-desc">{current.desc}</p>
-              
-              <div className="stage-stepper-controls">
-                <button
-                  type="button"
-                  className="step-nav-btn prev"
-                  disabled={activeStep === 0}
-                  onClick={() => setActiveStep((prev) => Math.max(0, prev - 1))}
+          {/* 7 Minimal Vertical Stages */}
+          <div className="minimal-stages-list">
+            {stages.map((st, idx) => {
+              const isIconLeft = idx % 2 === 0;
+              const isActive = idx === activeStage;
+              const isPast = idx < activeStage;
+              const IconComp = st.icon;
+
+              return (
+                <div
+                  key={st.id}
+                  ref={(el) => (stageRefs.current[idx] = el)}
+                  data-stage-index={idx}
+                  className={`minimal-stage-row ${isIconLeft ? 'icon-left-row' : 'icon-right-row'} ${isActive ? 'stage-active' : ''} ${isPast ? 'stage-past' : ''}`}
                 >
-                  ← Previous Stage
-                </button>
-                <button
-                  type="button"
-                  className="step-nav-btn next"
-                  disabled={activeStep === stages.length - 1}
-                  onClick={() => setActiveStep((prev) => Math.min(stages.length - 1, prev + 1))}
-                >
-                  Next Stage →
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column: Execution Monitor Terminal */}
-            <div className="stage-execution-col">
-              <div className="stage-terminal-box">
-                <div className="terminal-topbar">
-                  <div className="terminal-dots">
-                    <span className="t-dot" />
-                    <span className="t-dot" />
-                    <span className="t-dot" />
+                  
+                  {/* Center Node Dot */}
+                  <div className="minimal-node-anchor">
+                    <div className={`minimal-node-dot ${isActive ? 'dot-active' : ''} ${isPast ? 'dot-past' : ''}`} />
                   </div>
-                  <span className="terminal-title">WORKFLOW EXECUTION · STAGE {current.num}</span>
-                  <span className="terminal-tag">{current.name}</span>
+
+                  {/* Left Column (Icon or Text) */}
+                  <div className="minimal-col col-left">
+                    {isIconLeft ? (
+                      <div className="minimal-icon-box">
+                        <IconComp size={30} className="minimal-black-icon" strokeWidth={1.8} aria-hidden="true" />
+                      </div>
+                    ) : (
+                      <div className="minimal-text-box text-align-right">
+                        <span className="minimal-stage-num">{st.num}</span>
+                        <h3 className="minimal-stage-title">{st.name}</h3>
+                        <p className="minimal-stage-desc">{st.desc}</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Right Column (Text or Icon) */}
+                  <div className="minimal-col col-right">
+                    {isIconLeft ? (
+                      <div className="minimal-text-box text-align-left">
+                        <span className="minimal-stage-num">{st.num}</span>
+                        <h3 className="minimal-stage-title">{st.name}</h3>
+                        <p className="minimal-stage-desc">{st.desc}</p>
+                      </div>
+                    ) : (
+                      <div className="minimal-icon-box">
+                        <IconComp size={30} className="minimal-black-icon" strokeWidth={1.8} aria-hidden="true" />
+                      </div>
+                    )}
+                  </div>
+
                 </div>
-
-                <div className="terminal-body">
-                  <div className="terminal-row">
-                    <span className="t-key">SIGNAL_STATE:</span>
-                    <span className="t-val t-val-accent">{current.telemetry}</span>
-                  </div>
-
-                  <div className="terminal-row">
-                    <span className="t-key">ACTION:</span>
-                    <span className="t-val">{current.actionTitle}</span>
-                  </div>
-
-                  <div className="terminal-log-output">
-                    <span className="log-prefix">&gt;</span>
-                    <span className="log-text">{current.actionDetail}</span>
-                  </div>
-
-                  <div className="terminal-waveform-bar" aria-hidden="true">
-                    {stages.map((_, idx) => (
-                      <span
-                        key={idx}
-                        className={`w-segment ${idx <= activeStep ? 'active' : ''}`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
+              );
+            })}
           </div>
 
         </div>
